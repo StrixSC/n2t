@@ -1,0 +1,53 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux.hdl
+
+/** 
+ * Multiplexor:
+ * out = a if sel == 0
+ *       b otherwise
+ */
+
+CHIP Mux {
+    IN a, b, sel;
+    OUT out;
+
+    PARTS:
+        /**
+        * Non-minified way. Fastest method, just use sum of products.
+        * 
+        * Not(in=a, out=notA);
+        * Not(in=b, out=notB);
+        * Not(in=sel, out=notSel);
+        * 
+        * !A && B && Sel    
+        * And(a=notA, b=b, out=notAAndB);  
+        * And(a=notAAndB, b=sel, out=notAandBandSel);
+        * 
+        * A && !B && !Sel
+        * And(a=a, b=notB, out=aAndNotB);
+        * And(a=aAndNotB, b=notSel, out=aAndnotBAndNotSel);
+        * 
+        * A && B && !Sel
+        * And(a=a, b=b, out=aAndB);
+        * And(a=aAndB, b=notSel, out=aAndBAndnotSel);
+        * 
+        * A && B && Sel
+        * And(a=aAndB, b=sel, out=aAndBAndSel);
+        * 
+        * Or(a=notAandBandSel, b=aAndnotBAndNotSel, out=notAandBandSelORaAndnotBAndSel);
+        * Or(a=aAndBAndnotSel, b=aAndBAndSel, out=aAndBAndnotSelORaAndBAndSel);
+        * Or(a=notAandBandSelORaAndnotBAndSel, b=aAndBAndnotSelORaAndBAndSel, out=out);
+        */
+
+        /**
+        * Minified Way, uses K-Maps to compute pull-up network
+        * and determine the smallest form of the logic circuit.
+        */
+        
+        Not(in=sel, out=notSel);
+        And(a=a, b=notSel, out=aAndNotSel);
+        And(a=b, b=sel, out=bAndSel);
+        Or(a=aAndNotSel, b=bAndSel, out=out);
+}
