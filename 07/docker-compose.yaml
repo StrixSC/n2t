@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+    n2t:
+        container_name: n2t-07
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - ./src:/usr/dev/n2t/src
+        ports:
+            - "8008:8008"
+        environment:
+            - PORT=8008    
+        env_file: ./.env
