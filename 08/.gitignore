@@ -1,0 +1,5 @@
+venv/
+**/**.out
+**/**.cmp
+**/**.tst
+__pycache__/
