@@ -278,3 +278,134 @@ D = M
 @{0}
 D;JNE
 """
+
+call: str = """
+@RETURN_ADDRESS_{0}
+D = A
+@SP
+A = M
+M = D
+@SP
+M = M + 1
+
+@LCL
+D = M
+@SP
+A = M
+M = D
+@SP
+M = M + 1
+
+@ARG
+D = M
+@SP
+A = M
+M = D
+@SP
+M = M + 1
+
+@THIS
+D = M
+@SP
+A = M
+M = D
+@SP
+M = M + 1
+
+@THAT
+D = M
+@SP
+A = M
+M = D
+@SP
+M = M + 1
+
+@SP
+D = M
+@5
+D = D - A
+@{1}
+D = D - A
+@ARG
+M = D
+
+@SP
+D = M
+@LCL
+M = D
+
+@{0}
+0;JMP
+
+(RETURN_ADDRESS_{0})
+"""
+
+function_setup_label: str = """
+({0})
+(SETUP_{0})
+"""
+
+function_push_lcl: str = """
+@LCL
+A = M + {0}
+M = 0
+"""
+
+ret: str = """
+@LCL
+D = A
+@endframe
+M = D
+
+@5
+D = A
+@endframe
+AM = M - D
+D = M
+
+@SP
+AM = M - 1
+D = M
+@ARG
+A = M
+M = D
+@ARG
+D = A
+@SP
+M = D + 1
+
+@1
+D = A
+@endFrame
+A = M - D
+D = M
+@THAT
+M = D 
+
+@2
+D = A
+@endFrame
+A = M - D
+D = M
+@THIS
+M = D 
+
+@3
+D = A
+@endFrame
+A = M - D
+D = M
+@ARG
+M = D 
+
+@4
+D = A
+@endFrame
+A = M - D
+D = M
+@LCL
+M = D 
+
+@RETURN_ADDRESS_{}
+0; JMP
+"""

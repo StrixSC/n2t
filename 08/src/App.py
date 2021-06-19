@@ -34,7 +34,6 @@ def main():
                 writer.write_asm_command("\n")
         
         next_command = parser.has_more_commands()
-        print(next_command)
 
     print("Process executed successfully")
     exit(0)

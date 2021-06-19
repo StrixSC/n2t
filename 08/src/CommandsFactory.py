@@ -24,11 +24,15 @@ class CommandsFactory:
     
     def __init__(self):
         self.command_count = 0
+        self.previous_return_address = ""
 
     def create_command(self, parsed_command: list = [], file_name: str = ""):
         self.command_count += 1
         command = parsed_command[0]
         arg_count = len(parsed_command)
+
+        if command in CommandsFactory.return_commands:
+            return ReturnCommand(self.previous_return_address)
 
         if command in CommandsFactory.arithmetic_commands:
             return ArithmeticCommand(self.command_count, command)
@@ -44,10 +48,16 @@ class CommandsFactory:
             if command in CommandsFactory.if_commands:
                 return IfCommand(label_name)
 
-            if command in CommandsFactory.function_commands:
-                arg_count = parsed_command[2]
-                # return FunctionCommand(label_name, arg_count)
+        if arg_count == 3 and command in ['call', 'function']:
+            function_name = parsed_command[1]
+            nArgs = parsed_command[2]
+            args = [function_name, nArgs]
+            if command == 'call':
+                return CallCommand(args)
 
+            if command == 'function':
+                self.previous_return_address = function_name
+                return FunctionCommand(args)
 
         if arg_count == 3:
             memory_segment = CommandsFactory.memory_segments.get(

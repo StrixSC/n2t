@@ -111,27 +111,57 @@ class ArithmeticCommand(Command):
 
 # return LabelCommand(file_name, label_name)
 class LabelCommand(Command):
-    def __init__(self, label_name):
-        super(LabelCommand, self).__init__()
-        self.label_name = label_name
+    def __init__(self, args):
+        super(LabelCommand, self).__init__(args)
     
     def to_hack_asm(self):
-        return label.format(self.label_name)
+        label_name = self.args[0]
+        return label.format(label_name)
 
 
 class IfCommand(Command):
-    def __init__(self, label_name: str):
-        super(IfCommand, self).__init__()
-        self.label_name = label_name
+    def __init__(self, args):
+        super(IfCommand, self).__init__(args)
     
     def to_hack_asm(self):
-        return ifgoto.format(self.label_name)
+        label_name = self.args[0]
+        return ifgoto.format(label_name)
 
 
 class GotoCommand(Command):
-        def __init__(self, label_name: str):
-            super(GotoCommand, self).__init__()
-            self.label_name = label_name
+    def __init__(self, label_name: str):
+        super(GotoCommand, self).__init__()
+        self.label_name = label_name
+    
+    def to_hack_asm(self):
+        return goto.format(self.label_name)
+
+
+class FunctionCommand(Command):
+    def __init__(self, args):
+        super(FunctionCommand, self).__init__(args)
         
-        def to_hack_asm(self):
-            return goto.format(self.label_name)
+    def to_hack_asm(self):
+        function_name = self.args[0]
+        asm = function_setup_label.format(function_name)
+        nVar = int(self.args[1])
+        for i in range(1, nVar):
+            asm += "\n" + function_push_lcl.format(i) + "\n"
+        return asm
+
+class CallCommand(Command):
+    def __init__(self, args):
+        super(CallCommand, self).__init__(args)
+    
+    def to_hack_asm(self):
+        function_name = self.args[0]
+        nArgs = int(self.args[1])
+        return call.format(function_name, nArgs)
+
+class ReturnCommand(Command):
+    def __init__(self, previous_return_address):
+        super(ReturnCommand, self).__init__()
+        self.previous_return_address = previous_return_address
+    
+    def to_hack_asm(self):
+        return ret.format(self.previous_return_address)
