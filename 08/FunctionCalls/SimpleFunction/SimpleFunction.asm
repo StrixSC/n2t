@@ -1,12 +1,10 @@
 // function SimpleFunction.test 2
 (SimpleFunction.test)
-(SETUP_SimpleFunction.test)
 
-
-@LCL
-A = M + 1
-M = 0
-
+@2
+D = A
+@SP
+M = D + M
 
 // push local 0
 @0
@@ -85,60 +83,73 @@ A = A - 1
 M = M - D
 
 // return
+// R14 = LCL
 @LCL
-D = A
-@endframe
+D = M
+@R14
 M = D
 
+// R13 = *(R14 - 5)
 @5
 D = A
-@endframe
-AM = M - D
+@R14
+A = M - D
 D = M
+@R13
+M = D
 
+// pop argument 0
 @SP
 AM = M - 1
 D = M
 @ARG
 A = M
 M = D
+
+// SP = ARG + 1
 @ARG
-D = A
+D = M
 @SP
 M = D + 1
 
+// THAT = *(R14 - 1)
 @1
 D = A
-@endFrame
+@R14
 A = M - D
 D = M
 @THAT
 M = D 
 
+// THIS = *(R14 - 2)
 @2
 D = A
-@endFrame
+@R14
 A = M - D
 D = M
 @THIS
 M = D 
 
+// ARG = *(R14 - 3)
 @3
 D = A
-@endFrame
+@R14
 A = M - D
 D = M
 @ARG
 M = D 
 
+// LCL = *(R14 - 4)
 @4
 D = A
-@endFrame
+@R14
 A = M - D
 D = M
 @LCL
 M = D 
 
-@RETURN_ADDRESS_SimpleFunction.test
+// goto R13
+@R13
+A = M
 0; JMP
 

@@ -280,7 +280,8 @@ D;JNE
 """
 
 call: str = """
-@RETURN_ADDRESS_{0}
+// push returnAddress
+@RETURN_ADDRESS_{0}_{1}
 D = A
 @SP
 A = M
@@ -288,6 +289,7 @@ M = D
 @SP
 M = M + 1
 
+// push LCL
 @LCL
 D = M
 @SP
@@ -296,6 +298,7 @@ M = D
 @SP
 M = M + 1
 
+// push ARG
 @ARG
 D = M
 @SP
@@ -304,6 +307,7 @@ M = D
 @SP
 M = M + 1
 
+// push THIS
 @THIS
 D = M
 @SP
@@ -312,6 +316,7 @@ M = D
 @SP
 M = M + 1
 
+// push THAT
 @THAT
 D = M
 @SP
@@ -320,6 +325,7 @@ M = D
 @SP
 M = M + 1
 
+// ARG = SP - 5 - {1}
 @SP
 D = M
 @5
@@ -329,83 +335,114 @@ D = D - A
 @ARG
 M = D
 
+// LCL = SP
 @SP
 D = M
 @LCL
 M = D
 
+// goto {0}
 @{0}
 0;JMP
 
-(RETURN_ADDRESS_{0})
+(RETURN_ADDRESS_{0}_{2})
 """
 
-function_setup_label: str = """
+fun: str = """
 ({0})
-(SETUP_{0})
-"""
 
-function_push_lcl: str = """
-@LCL
-A = M + {0}
-M = 0
+@{1}
+D = A
+@SP
+M = D + M
 """
 
 ret: str = """
+// R14 = LCL
 @LCL
-D = A
-@endframe
+D = M
+@R14
 M = D
 
+// R13 = *(R14 - 5)
 @5
 D = A
-@endframe
-AM = M - D
+@R14
+A = M - D
 D = M
+@R13
+M = D
 
+// pop argument 0
 @SP
 AM = M - 1
 D = M
 @ARG
 A = M
 M = D
+
+// SP = ARG + 1
 @ARG
-D = A
+D = M
 @SP
 M = D + 1
 
+// THAT = *(R14 - 1)
 @1
 D = A
-@endFrame
+@R14
 A = M - D
 D = M
 @THAT
 M = D 
 
+// THIS = *(R14 - 2)
 @2
 D = A
-@endFrame
+@R14
 A = M - D
 D = M
 @THIS
 M = D 
 
+// ARG = *(R14 - 3)
 @3
 D = A
-@endFrame
+@R14
 A = M - D
 D = M
 @ARG
 M = D 
 
+// LCL = *(R14 - 4)
 @4
 D = A
-@endFrame
+@R14
 A = M - D
 D = M
 @LCL
 M = D 
 
-@RETURN_ADDRESS_{}
+// goto R13
+@R13
+A = M
 0; JMP
+"""
+
+bootstrap: str = """
+// Bootstrap
+@256
+D=A
+@SP
+M=D
+D=-1
+@THIS
+M=D
+@THAT
+M=D
+@LCL
+M=D
+@ARG
+M=D
+
 """

@@ -4,6 +4,20 @@ class Command:
     def __init__(self, args: list = []):
         self.args = args
 
+class BootstrapCommand(Command):
+    def __init__(self, args: list = []):
+        super(BootstrapCommand, self).__init__(args)
+    
+    def to_hack_asm(self):
+        return bootstrap
+    
+class SysInitCommand(Command):
+    def __init__(self, args: list = []):
+        super(SysInitCommand, self).__init__(args)
+        
+    def to_hack_asm(self):
+        return CallCommand(["Sys.init", 0], 0).to_hack_asm()
+
 class PointerPush(Command):
     def __init__(self, args: list = []):
         super(PointerPush, self).__init__(args)
@@ -17,7 +31,7 @@ class PointerPop(Command):
         super(PointerPop, self).__init__(args)
 
     def to_hack_asm(self):
-        memory_segment = "THIS" if self.args[0] == "0" else "THAT" 
+        memory_segment = "THIS" if self.args[1] == "0" else "THAT" 
         return pointer_pop.format(memory_segment)
 
 # Command for pushing into local, arg, this, that
@@ -129,12 +143,12 @@ class IfCommand(Command):
 
 
 class GotoCommand(Command):
-    def __init__(self, label_name: str):
-        super(GotoCommand, self).__init__()
-        self.label_name = label_name
+    def __init__(self, args: list):
+        super(GotoCommand, self).__init__(args)
     
     def to_hack_asm(self):
-        return goto.format(self.label_name)
+        label_name = self.args[0]
+        return goto.format(label_name)
 
 
 class FunctionCommand(Command):
@@ -143,25 +157,24 @@ class FunctionCommand(Command):
         
     def to_hack_asm(self):
         function_name = self.args[0]
-        asm = function_setup_label.format(function_name)
         nVar = int(self.args[1])
-        for i in range(1, nVar):
-            asm += "\n" + function_push_lcl.format(i) + "\n"
-        return asm
+        return fun.format(function_name, nVar)
 
 class CallCommand(Command):
-    def __init__(self, args):
+    def __init__(self, args, command_count):
         super(CallCommand, self).__init__(args)
+        self.command_count = command_count
     
     def to_hack_asm(self):
         function_name = self.args[0]
         nArgs = int(self.args[1])
-        return call.format(function_name, nArgs)
+        return call.format(function_name, nArgs, self.command_count)
 
 class ReturnCommand(Command):
-    def __init__(self, previous_return_address):
+    def __init__(self, previous_return_address, command_count):
         super(ReturnCommand, self).__init__()
+        self.command_count = command_count
         self.previous_return_address = previous_return_address
     
     def to_hack_asm(self):
-        return ret.format(self.previous_return_address)
+        return ret.format(self.previous_return_address, self.command_count)
