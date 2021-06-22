@@ -281,7 +281,7 @@ D;JNE
 
 call: str = """
 // push returnAddress
-@RETURN_ADDRESS_{0}_{1}
+@RETURN_ADDRESS_{0}_{1}_{2}
 D = A
 @SP
 A = M
@@ -345,7 +345,7 @@ M = D
 @{0}
 0;JMP
 
-(RETURN_ADDRESS_{0}_{2})
+(RETURN_ADDRESS_{0}_{1}_{2})
 """
 
 fun: str = """
@@ -358,19 +358,19 @@ M = D + M
 """
 
 ret: str = """
-// R14 = LCL
+// endFrame = LCL
 @LCL
 D = M
-@R14
+@endFrame
 M = D
 
-// R13 = *(R14 - 5)
+// returnAddr = *(endFrame - 5)
 @5
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
-@R13
+@returnAddr
 M = D
 
 // pop argument 0
@@ -387,44 +387,44 @@ D = M
 @SP
 M = D + 1
 
-// THAT = *(R14 - 1)
+// THAT = *(endFrame - 1)
 @1
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @THAT
 M = D 
 
-// THIS = *(R14 - 2)
+// THIS = *(endFrame - 2)
 @2
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @THIS
 M = D 
 
-// ARG = *(R14 - 3)
+// ARG = *(endFrame - 3)
 @3
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @ARG
 M = D 
 
-// LCL = *(R14 - 4)
+// LCL = *(endFrame - 4)
 @4
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @LCL
 M = D 
 
-// goto R13
-@R13
+// goto returnAddr
+@returnAddr
 A = M
 0; JMP
 """

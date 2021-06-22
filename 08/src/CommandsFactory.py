@@ -25,7 +25,6 @@ class CommandsFactory:
     def __init__(self):
         self.command_count = 0
         self.previous_return_address = ""
-        self.call_command_count = 0
 
     def create_bootstrap_command(self):
         return BootstrapCommand()
@@ -39,7 +38,7 @@ class CommandsFactory:
         arg_count = len(parsed_command)
 
         if command in CommandsFactory.return_commands:
-            return ReturnCommand(self.previous_return_address, self.call_command_count)
+            return ReturnCommand(self.previous_return_address, self.command_count)
 
         if command in CommandsFactory.arithmetic_commands:
             return ArithmeticCommand(self.command_count, command)
@@ -60,8 +59,7 @@ class CommandsFactory:
             nArgs = parsed_command[2]
             args = [function_name, nArgs]
             if command == 'call':
-                self.call_command_count +=1
-                return CallCommand(args, self.call_command_count)
+                return CallCommand(args, self.command_count)
 
             if command == 'function':
                 self.previous_return_address = function_name

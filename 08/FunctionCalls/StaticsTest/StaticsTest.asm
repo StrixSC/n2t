@@ -16,7 +16,7 @@ M=D
 
 // call Sys.init 0
 // push returnAddress
-@RETURN_ADDRESS_Sys.init_0
+@RETURN_ADDRESS_Sys.init_0_0
 D = A
 @SP
 A = M
@@ -80,7 +80,7 @@ M = D
 @Sys.init
 0;JMP
 
-(RETURN_ADDRESS_Sys.init_0)
+(RETURN_ADDRESS_Sys.init_0_0)
 // function Class1.set 0
 (Class1.set)
 
@@ -137,19 +137,19 @@ M = D
 M = M + 1
 
 // return
-// R14 = LCL
+// endFrame = LCL
 @LCL
 D = M
-@R14
+@endFrame
 M = D
 
-// R13 = *(R14 - 5)
+// returnAddr = *(endFrame - 5)
 @5
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
-@R13
+@returnAddr
 M = D
 
 // pop argument 0
@@ -166,44 +166,44 @@ D = M
 @SP
 M = D + 1
 
-// THAT = *(R14 - 1)
+// THAT = *(endFrame - 1)
 @1
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @THAT
 M = D 
 
-// THIS = *(R14 - 2)
+// THIS = *(endFrame - 2)
 @2
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @THIS
 M = D 
 
-// ARG = *(R14 - 3)
+// ARG = *(endFrame - 3)
 @3
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @ARG
 M = D 
 
-// LCL = *(R14 - 4)
+// LCL = *(endFrame - 4)
 @4
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @LCL
 M = D 
 
-// goto R13
-@R13
+// goto returnAddr
+@returnAddr
 A = M
 0; JMP
 
@@ -241,19 +241,19 @@ A = A - 1
 M = M - D
 
 // return
-// R14 = LCL
+// endFrame = LCL
 @LCL
 D = M
-@R14
+@endFrame
 M = D
 
-// R13 = *(R14 - 5)
+// returnAddr = *(endFrame - 5)
 @5
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
-@R13
+@returnAddr
 M = D
 
 // pop argument 0
@@ -270,44 +270,44 @@ D = M
 @SP
 M = D + 1
 
-// THAT = *(R14 - 1)
+// THAT = *(endFrame - 1)
 @1
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @THAT
 M = D 
 
-// THIS = *(R14 - 2)
+// THIS = *(endFrame - 2)
 @2
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @THIS
 M = D 
 
-// ARG = *(R14 - 3)
+// ARG = *(endFrame - 3)
 @3
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @ARG
 M = D 
 
-// LCL = *(R14 - 4)
+// LCL = *(endFrame - 4)
 @4
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @LCL
 M = D 
 
-// goto R13
-@R13
+// goto returnAddr
+@returnAddr
 A = M
 0; JMP
 
@@ -367,19 +367,19 @@ M = D
 M = M + 1
 
 // return
-// R14 = LCL
+// endFrame = LCL
 @LCL
 D = M
-@R14
+@endFrame
 M = D
 
-// R13 = *(R14 - 5)
+// returnAddr = *(endFrame - 5)
 @5
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
-@R13
+@returnAddr
 M = D
 
 // pop argument 0
@@ -396,44 +396,44 @@ D = M
 @SP
 M = D + 1
 
-// THAT = *(R14 - 1)
+// THAT = *(endFrame - 1)
 @1
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @THAT
 M = D 
 
-// THIS = *(R14 - 2)
+// THIS = *(endFrame - 2)
 @2
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @THIS
 M = D 
 
-// ARG = *(R14 - 3)
+// ARG = *(endFrame - 3)
 @3
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @ARG
 M = D 
 
-// LCL = *(R14 - 4)
+// LCL = *(endFrame - 4)
 @4
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @LCL
 M = D 
 
-// goto R13
-@R13
+// goto returnAddr
+@returnAddr
 A = M
 0; JMP
 
@@ -471,19 +471,19 @@ A = A - 1
 M = M - D
 
 // return
-// R14 = LCL
+// endFrame = LCL
 @LCL
 D = M
-@R14
+@endFrame
 M = D
 
-// R13 = *(R14 - 5)
+// returnAddr = *(endFrame - 5)
 @5
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
-@R13
+@returnAddr
 M = D
 
 // pop argument 0
@@ -500,44 +500,44 @@ D = M
 @SP
 M = D + 1
 
-// THAT = *(R14 - 1)
+// THAT = *(endFrame - 1)
 @1
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @THAT
 M = D 
 
-// THIS = *(R14 - 2)
+// THIS = *(endFrame - 2)
 @2
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @THIS
 M = D 
 
-// ARG = *(R14 - 3)
+// ARG = *(endFrame - 3)
 @3
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @ARG
 M = D 
 
-// LCL = *(R14 - 4)
+// LCL = *(endFrame - 4)
 @4
 D = A
-@R14
+@endFrame
 A = M - D
 D = M
 @LCL
 M = D 
 
-// goto R13
-@R13
+// goto returnAddr
+@returnAddr
 A = M
 0; JMP
 
@@ -569,7 +569,7 @@ M = M + 1
 
 // call Class1.set 2
 // push returnAddress
-@RETURN_ADDRESS_Class1.set_2
+@RETURN_ADDRESS_Class1.set_2_28
 D = A
 @SP
 A = M
@@ -633,7 +633,7 @@ M = D
 @Class1.set
 0;JMP
 
-(RETURN_ADDRESS_Class1.set_1)
+(RETURN_ADDRESS_Class1.set_2_28)
 
 // pop temp 0
 @SP
@@ -662,7 +662,7 @@ M = M + 1
 
 // call Class2.set 2
 // push returnAddress
-@RETURN_ADDRESS_Class2.set_2
+@RETURN_ADDRESS_Class2.set_2_32
 D = A
 @SP
 A = M
@@ -726,7 +726,7 @@ M = D
 @Class2.set
 0;JMP
 
-(RETURN_ADDRESS_Class2.set_2)
+(RETURN_ADDRESS_Class2.set_2_32)
 
 // pop temp 0
 @SP
@@ -737,7 +737,7 @@ M = D
 
 // call Class1.get 0
 // push returnAddress
-@RETURN_ADDRESS_Class1.get_0
+@RETURN_ADDRESS_Class1.get_0_34
 D = A
 @SP
 A = M
@@ -801,11 +801,11 @@ M = D
 @Class1.get
 0;JMP
 
-(RETURN_ADDRESS_Class1.get_3)
+(RETURN_ADDRESS_Class1.get_0_34)
 
 // call Class2.get 0
 // push returnAddress
-@RETURN_ADDRESS_Class2.get_0
+@RETURN_ADDRESS_Class2.get_0_35
 D = A
 @SP
 A = M
@@ -869,7 +869,7 @@ M = D
 @Class2.get
 0;JMP
 
-(RETURN_ADDRESS_Class2.get_4)
+(RETURN_ADDRESS_Class2.get_0_35)
 
 // label WHILE
 (WHILE)
