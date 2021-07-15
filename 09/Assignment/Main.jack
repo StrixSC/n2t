@@ -1,0 +1,52 @@
+class Main {
+    function void main() {
+        var int ready, key;
+        var int number;
+        var int input;
+        var int found;
+        var Random generator;
+
+        let number = Random.randRange(32767);
+        let ready = 0;
+        let found = 0;
+
+        do Output.printString("Welcome to the Higher Lower game!");
+        do Output.println();
+
+        do Output.printString("For this game, you will need to guess the random generated number!");
+        do Output.println();
+
+        do Output.printString("Upon each answer, if the answer is not correct, we will be telling you if you should think higher or lower! That's how th game works! Woooo!");
+        do Output.println();
+
+        do Output.printString("Ready to play? (Press Enter to start)");
+        do Output.println();
+
+        while(ready = 0) {
+            let key = Keyboard.keyPressed();
+            if(key = 128) {
+                let ready = 1;
+            }
+        }
+
+        do Output.printString("Alright, the number has been generated, it is between: ");
+        do Output.printInt(0);
+        do Output.printString(" and ");
+        do Output.printInt(32767);
+        do Output.printString(".");
+        do Output.println();
+
+        while(found = 0) {
+            let input = Input.readInt();
+            if (input = number) {
+                let found = 1;
+            }
+        }
+
+        do Output.printString("Wow! You've done it! The number was indeed: ");
+        do Output.printInt(number);
+        do Output.println();
+
+        return;
+    }
+}
